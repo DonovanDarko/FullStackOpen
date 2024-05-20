@@ -3,11 +3,19 @@ sequenceDiagram
     participant browser
     participant server
 
+    browser->>server: POST https://studies.cs.helsinki.fi/exampleapp/new_note
+    Note right of browser: The user has pressed the 'Save' button.
+    activate server
+    server-->>browser: HTTP Response 302 Status - URL Redirect
+    deactivate server
+
+    Note right of browser: What follows is the events that occur when the Notes Example App is loaded
+
     browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/notes
     activate server
     server-->>browser: HTML document
     deactivate server
-
+    
     browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/main.css
     activate server
     server-->>browser: the css file
@@ -26,4 +34,5 @@ sequenceDiagram
     deactivate server
 
     Note right of browser: The browser executes the callback function that renders the notes
+
 ```
