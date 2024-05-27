@@ -5,7 +5,7 @@ const Button = ({ handleClick, text }) => (
 )
 
 const Stat = ({ values, statistic }) => (
-  <p>{statistic}: {values[statistic]}</p>
+  <div>{statistic}: {values[statistic]}</div>
 )
 
 const App = () => {
@@ -20,6 +20,22 @@ const App = () => {
     'bad': bad
   }
 
+  const totalFeedback = good+neutral+bad
+  
+  const calculateAverage = () => {
+    if (totalFeedback) {
+      return (values['good']*1 + values['bad']*-1)/(totalFeedback)
+    }
+    return 0
+  }
+
+  const percentPositiveFeedback = () => {
+    if (totalFeedback) {
+      return (values['good']*100/totalFeedback)
+    }
+    return 0
+  }
+
   return (
     <div>
       <h1>Give Feedback Here!</h1>
@@ -31,6 +47,8 @@ const App = () => {
       <Stat values={values} statistic='good'/>
       <Stat values={values} statistic='neutral'/>
       <Stat values={values} statistic='bad'/>
+      <div>average: {calculateAverage()}</div>
+      <div>positive: {percentPositiveFeedback()}%</div>
 
     </div>
   )
