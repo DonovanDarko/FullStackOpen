@@ -1,5 +1,7 @@
 import { useState } from 'react'
 
+
+
 const App = () => {
   const anecdotes = [
     'If it hurts, do it more often.',
@@ -11,28 +13,40 @@ const App = () => {
     'Programming without an extremely heavy use of console.log is same as if a doctor would refuse to use x-rays or blood tests when diagnosing patients.',
     'The only way to go fast, is to go well.'
   ]
-  const [selected, setSelected] = useState(0)
-  const [points, setPoint] = useState(new Uint8Array(anecdotes.length))
+  const [selected, setSelected] = useState(Math.floor(Math.random()*anecdotes.length))
+  const [points, setPoints] = useState(new Uint8Array(anecdotes.length))
+  const [mostPoints, setMostPoints] = useState(0)
 
-  const randomAnecdote = (anecdotes) => {
+  const randomAnecdoteIndex = (anecdotes) => {
     const n = Math.floor(Math.random()*anecdotes.length)
     setSelected(n)
+    getLargestElementIndex(points)
   }
 
   const addVote = (selected) => {
     const copy = [...points]
     copy[selected] += 1
-    setPoint(copy)
+    setPoints(copy)
+    getLargestElementIndex(points)
   }
+  
+  const getLargestElementIndex = (points) => (
+    setMostPoints(points.reduce((maxIndex, currentValue, currentIndex, array) => {
+        return currentValue > array[maxIndex] ? currentIndex : maxIndex;
+      }, 0)
+    )
+  )
   
   return (
     <div>
-      <div>
-        {anecdotes[selected]}
-      </div>
+      <h1>Anecdote of the Day!</h1>
+      <div>{anecdotes[selected]}</div>
       <div>has {points[selected]} votes</div>
       <button onClick={() => addVote(selected)}>vote</button>
-      <button onClick={() => randomAnecdote(anecdotes)}>Random Anecdote!</button>
+      <button onClick={() => randomAnecdoteIndex(anecdotes)}>Random Anecdote!</button>
+      <h1>Anecdote with the Most Votes!</h1>
+      <div>{anecdotes[mostPoints]}</div>
+      <div>has {points[mostPoints]} votes</div>
     </div>
   )
 }
