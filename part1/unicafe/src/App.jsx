@@ -4,8 +4,32 @@ const Button = ({ handleClick, text }) => (
   <button onClick={handleClick}> {text} </button>
 )
 
-const Stat = ({ values, statistic }) => (
-  <div>{statistic}: {values[statistic]}</div>
+const totalFeedback = (values) => {
+  return values['good'] + values['neutral'] + values['bad']
+}
+
+const calculateAverage = (values) => {
+  if (totalFeedback(values)) {
+    return (values['good']*1 + values['bad']*-1)/(totalFeedback(values))
+  }
+  return 0
+}
+
+const percentPositiveFeedback = (values) => {
+  if (totalFeedback(values)) {
+    return (values['good']*100/totalFeedback(values))
+  }
+  return 0
+}
+
+const Statistics = ({ values }) => (
+  <div>
+    <div>good: {values['good']}</div>
+    <div>neutral: {values['neutral']}</div>
+    <div>bad: {values['bad']}</div>
+    <div>average: {calculateAverage(values)}</div>
+    <div>positive: {percentPositiveFeedback(values)}%</div>
+  </div>
 )
 
 const App = () => {
@@ -19,23 +43,7 @@ const App = () => {
     'neutral': neutral,
     'bad': bad
   }
-
-  const totalFeedback = good+neutral+bad
   
-  const calculateAverage = () => {
-    if (totalFeedback) {
-      return (values['good']*1 + values['bad']*-1)/(totalFeedback)
-    }
-    return 0
-  }
-
-  const percentPositiveFeedback = () => {
-    if (totalFeedback) {
-      return (values['good']*100/totalFeedback)
-    }
-    return 0
-  }
-
   return (
     <div>
       <h1>Give Feedback Here!</h1>
@@ -44,12 +52,7 @@ const App = () => {
       <Button handleClick = {() => setBad(bad+1)} text = "bad"/>
 
       <h1>Stats!</h1>
-      <Stat values={values} statistic='good'/>
-      <Stat values={values} statistic='neutral'/>
-      <Stat values={values} statistic='bad'/>
-      <div>average: {calculateAverage()}</div>
-      <div>positive: {percentPositiveFeedback()}%</div>
-
+      <Statistics values={values} />
     </div>
   )
 }
