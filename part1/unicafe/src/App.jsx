@@ -22,15 +22,22 @@ const percentPositiveFeedback = (values) => {
   return 0
 }
 
-const Statistics = ({ values }) => (
-  <div>
-    <div>good: {values['good']}</div>
-    <div>neutral: {values['neutral']}</div>
-    <div>bad: {values['bad']}</div>
-    <div>average: {calculateAverage(values)}</div>
-    <div>positive: {percentPositiveFeedback(values)}%</div>
-  </div>
-)
+const Statistics = ({ values }) => {
+  if (totalFeedback(values)) {
+    return (
+      <div>
+        <div>good: {values['good']}</div>
+        <div>neutral: {values['neutral']}</div>
+        <div>bad: {values['bad']}</div>
+        <div>average: {calculateAverage(values)}</div>
+        <div>positive: {percentPositiveFeedback(values)}%</div>
+      </div>
+    )
+  }
+  return (
+    <div>No feedback yet!</div>
+  )
+}
 
 const App = () => {
   // save clicks of each button to its own state
