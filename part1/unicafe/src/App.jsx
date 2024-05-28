@@ -8,29 +8,28 @@ const totalFeedback = (values) => {
   return values['good'] + values['neutral'] + values['bad']
 }
 
-const calculateAverage = (values) => {
-  if (totalFeedback(values)) {
-    return (values['good']*1 + values['bad']*-1)/(totalFeedback(values))
-  }
-  return 0
-}
+const calculateAverage = ({ values, totalFeedbackCount }) => (
+    (values['good']*1 + values['bad']*-1)/(totalFeedbackCount)
+  )
 
-const percentPositiveFeedback = (values) => {
-  if (totalFeedback(values)) {
-    return (values['good']*100/totalFeedback(values))
-  }
-  return 0
-}
+const percentPositiveFeedback = ({ values, totalFeedbackCount }) => (
+  values['good']*100/totalFeedbackCount
+)
+
+const StatisticLine = (props) => (
+  <div>{props.text}: {props.value}</div>
+)
 
 const Statistics = ({ values }) => {
-  if (totalFeedback(values)) {
+  const totalFeedbackCount = totalFeedback(values)
+  if (totalFeedbackCount) {
     return (
       <div>
-        <div>good: {values['good']}</div>
-        <div>neutral: {values['neutral']}</div>
-        <div>bad: {values['bad']}</div>
-        <div>average: {calculateAverage(values)}</div>
-        <div>positive: {percentPositiveFeedback(values)}%</div>
+        <StatisticLine text="good" value ={values['good']} />
+        <StatisticLine text="neutral" value ={values['neutral']} />
+        <StatisticLine text="bad" value ={values['bad']} />
+        <StatisticLine text="average" value ={calculateAverage({values, totalFeedbackCount})} />
+        <StatisticLine text="positive" value ={percentPositiveFeedback({values, totalFeedbackCount})+'%'} />
       </div>
     )
   }
