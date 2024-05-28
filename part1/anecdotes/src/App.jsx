@@ -15,26 +15,22 @@ const App = () => {
   ]
   const [selected, setSelected] = useState(Math.floor(Math.random()*anecdotes.length))
   const [points, setPoints] = useState(new Uint8Array(anecdotes.length))
-  const [mostPoints, setMostPoints] = useState(0)
 
   const randomAnecdoteIndex = (anecdotes) => {
     const n = Math.floor(Math.random()*anecdotes.length)
     setSelected(n)
-    getLargestElementIndex(points)
   }
 
   const addVote = (selected) => {
     const copy = [...points]
     copy[selected] += 1
     setPoints(copy)
-    getLargestElementIndex(points)
   }
   
   const getLargestElementIndex = (points) => (
-    setMostPoints(points.reduce((maxIndex, currentValue, currentIndex, array) => {
-        return currentValue > array[maxIndex] ? currentIndex : maxIndex;
-      }, 0)
-    )
+    points.reduce((maxIndex, currentValue, currentIndex, array) => {
+      return currentValue > array[maxIndex] ? currentIndex : maxIndex;
+    }, 0)
   )
   
   return (
@@ -45,8 +41,8 @@ const App = () => {
       <button onClick={() => addVote(selected)}>vote</button>
       <button onClick={() => randomAnecdoteIndex(anecdotes)}>Random Anecdote!</button>
       <h1>Anecdote with the Most Votes!</h1>
-      <div>{anecdotes[mostPoints]}</div>
-      <div>has {points[mostPoints]} votes</div>
+      <div>{anecdotes[getLargestElementIndex(points)]}</div>
+      <div>has {points[getLargestElementIndex(points)]} votes</div>
     </div>
   )
 }
