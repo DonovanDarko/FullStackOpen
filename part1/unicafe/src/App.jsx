@@ -16,21 +16,29 @@ const percentPositiveFeedback = ({ values, totalFeedbackCount }) => (
   values['good']*100/totalFeedbackCount
 )
 
-const StatisticLine = (props) => (
-  <div>{props.text}: {props.value}</div>
+const StatisticRow = (props) => (
+  <tr>
+    <td>{props.text}</td>
+    <td>{props.value}</td>
+  </tr>
 )
 
 const Statistics = ({ values }) => {
   const totalFeedbackCount = totalFeedback(values)
   if (totalFeedbackCount) {
     return (
-      <div>
-        <StatisticLine text="good" value ={values['good']} />
-        <StatisticLine text="neutral" value ={values['neutral']} />
-        <StatisticLine text="bad" value ={values['bad']} />
-        <StatisticLine text="average" value ={calculateAverage({values, totalFeedbackCount})} />
-        <StatisticLine text="positive" value ={percentPositiveFeedback({values, totalFeedbackCount})+'%'} />
-      </div>
+      <table>
+        <tr>
+          <th />
+          <th />
+        </tr>
+        <StatisticRow text="good" value ={values['good']} />
+        <StatisticRow text="neutral" value ={values['neutral']} />
+        <StatisticRow text="bad" value ={values['bad']} />
+        <StatisticRow text="all" value ={totalFeedbackCount} />
+        <StatisticRow text="average" value ={calculateAverage({values, totalFeedbackCount})} />
+        <StatisticRow text="positive" value ={percentPositiveFeedback({values, totalFeedbackCount})+'%'} />
+      </table>
     )
   }
   return (
@@ -39,7 +47,6 @@ const Statistics = ({ values }) => {
 }
 
 const App = () => {
-  // save clicks of each button to its own state
   const [good, setGood] = useState(0)
   const [neutral, setNeutral] = useState(0)
   const [bad, setBad] = useState(0)
