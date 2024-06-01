@@ -13,7 +13,7 @@ const totalExercises = ( parts ) => {
 const Course = ({ course }) => {
     return (
         <div>
-            <h1>{course.name}</h1>
+            <h4>{course.name}</h4>
             <ul>
                 {course.parts.map(part => 
                     <Part key={part.id} part={part} />
