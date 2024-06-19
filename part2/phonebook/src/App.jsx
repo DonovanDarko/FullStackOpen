@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
 import personService from './services/person'
-import axios from 'axios'
 
 const AddPersonForm = (props) => {
   return (
@@ -23,9 +22,9 @@ const Filter = (props) => {
   )
 }
 
-const Person = ({ person }) => {
+const Person = ({ person, deletePerson }) => {
   return (
-    <li>{person.name}  {person.number}</li>
+    <li>{person.name}  {person.number} <button onClick = {deletePerson}> delete? </button> </li>
   )
 }
 
@@ -68,6 +67,19 @@ const App = () => {
     }
   }
 
+  const deletePersonRecord = (id) => {
+    if (window.confirm(`Do you really want to delete \`${persons.find(person => person.id === id).name}\`?`)) {
+      personService
+      .destroy(id)
+      .then(removedPerson => {
+        let remainingPersons = persons.filter(n => n.id != id)
+        setPersons(remainingPersons)
+        setPersonsToShow(
+          remainingPersons.filter((person) => person.name.toLowerCase().includes(filter.toLowerCase()))
+        )
+      })
+    }
+  }
 
   const handleNameChange = (event) => {
     setNewName(event.target.value)
@@ -91,7 +103,7 @@ const App = () => {
       <h2>Numbers</h2>
       <Filter filter={filter} handleFilterChange={handleFilterChange} />
       <ul>
-        {personsToShow.map(person => <Person key={person.name} person={person} /> )}
+        {personsToShow.map(person => <Person key={person.name} person={person} deletePerson={() => deletePersonRecord(person.id)} /> )}
       </ul>
     </div>
   )
