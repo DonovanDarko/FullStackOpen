@@ -1,32 +1,7 @@
 import { useState, useEffect } from 'react'
 import personService from './services/person'
-
-const AddPersonForm = (props) => {
-  return (
-    <form onSubmit={props.addPerson}>
-    <div>
-      name: <input value={props.newName} onChange={props.handleNameChange} />
-    </div>
-    <div>
-      number: <input value = {props.newNumber} onChange={props.handleNumberChange}/></div>
-    <div>
-      <button type="submit">add</button>
-    </div>
-  </form>
-  )
-}
-
-const Filter = (props) => {
-  return (
-    <div>filter shown with: <input value={props.filter} onChange={props.handleFilterChange}/></div>
-  )
-}
-
-const Person = ({ person, deletePerson }) => {
-  return (
-    <li>{person.name}  {person.number} <button onClick = {deletePerson}> delete? </button> </li>
-  )
-}
+import { AddPersonForm, Filter, Person } from './components/PersonComponents'
+import Notification from './components/Notification'
 
 const App = () => {
   const [persons, setPersons] = useState([])
@@ -34,6 +9,7 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [filter, setFilter] = useState('')
+  const [notification, setNotification] = useState({'message': null, 'error': false})
 
   useEffect(() => {
     personService
@@ -63,6 +39,26 @@ const App = () => {
           setPersonsToShow(persons.filter(person => person.id !== existingPerson.id).concat(returnedPerson))
           setNewName('')
           setNewNumber('')
+          setNotification(
+            {
+              'message': `Number Updated for '${personObject.name}'`,
+              'error': false
+            }
+          )
+          setTimeout(() => {
+            setNotification({'message':null,'error':false})
+          }, 5000)
+        })
+        .catch(error => {
+          setNotification(
+            {
+              'message': `This person was already deleted`,
+              'error': true
+            }
+          )
+          setTimeout(() => {
+            setNotification({'message':null,'error':false})
+          }, 5000)
         })
       }
     } else {
@@ -74,6 +70,15 @@ const App = () => {
         setPersonsToShow(persons.concat(returnedPerson))
         setNewName('')
         setNewNumber('')
+        setNotification(
+          {
+            'message': `Added '${personObject.name}'`,
+            'error': false
+          }
+        )
+        setTimeout(() => {
+          setNotification({'message': null, 'error': false})
+        }, 5000)
       })
     }
   }
@@ -110,6 +115,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={notification.message} error = {notification.error} />
       <AddPersonForm addPerson={addPerson} newName={newName} newNumber={newNumber} handleNameChange={handleNameChange} handleNumberChange={handleNumberChange}/>
       <h2>Numbers</h2>
       <Filter filter={filter} handleFilterChange={handleFilterChange} />
