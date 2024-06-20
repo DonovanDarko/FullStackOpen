@@ -13,7 +13,7 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.languages {
+.list_title {
   font-weight: 700;
 }
 
@@ -29,7 +29,7 @@ a:hover {
 body {
   margin: 0;
   display: flex;
-  place-items: center;
+  place-items: left;
   min-width: 320px;
   min-height: 100vh;
 }

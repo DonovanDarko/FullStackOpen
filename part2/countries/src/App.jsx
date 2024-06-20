@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import countryService from './services/countries'
+import weatherService from './services/weather_service'
 import { Filter, FilteredList, FilterNotification, SingleCountry } from './components/filter'
 import './App.css'
 
@@ -31,13 +32,7 @@ function App() {
     } else { 
       let filteredCountryList = countryList.filter((country) => country.name.common.toLowerCase().includes(event.target.value.toLowerCase()))
       if (filteredCountryList.length === 1) {
-        countryService
-        .getOne(filteredCountryList[0].name.common)
-        .then(returnedCountry => {
-          setSingleCountry(returnedCountry)
-        })
-        setFilterNoticiation(null)
-        setFilteredCountries(null)
+        showCountry(filteredCountryList[0].name.common)
       } else if (filteredCountryList.length > 10) {
         setFilterNoticiation("Too many matches, please specify another filter")
         setFilteredCountries(null)
@@ -46,20 +41,22 @@ function App() {
         setFilteredCountries(filteredCountryList)
         setFilterNoticiation(null)
         setSingleCountry(null)
-      }
+      }   
     }
   }
 
   const showCountry = (name) => {
-    //console.log('showing details for ', name)
     countryService
     .getOne(name)
     .then(returnedCountry => {
-      setSingleCountry(returnedCountry)
+        weatherService
+        .getWeather(returnedCountry.capitalInfo.latlng)
+        .then(returnedWeather => {
+          setSingleCountry({ returnedCountry, returnedWeather })
+        })
     })
     setFilterNoticiation(null)
     setFilteredCountries(null)
-    setFilter("")
   }
 
   return (
@@ -67,7 +64,7 @@ function App() {
       <Filter filter={filter} handleFilterChange={handleFilterChange} />
       <FilterNotification message={filterNotification} />
       <FilteredList filteredCountries={filteredCountries} showSingleCountry={showCountry} />
-      <SingleCountry countryObject={singleCountry} />
+      <SingleCountry countryWeather={singleCountry} />
     </>
   )
 }
