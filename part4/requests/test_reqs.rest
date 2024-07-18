@@ -7,10 +7,10 @@ POST http://localhost:3003/api/blogs/
 Content-Type: application/json
 
 {
-    "title": "Finding Direction in a New Time",
-    "author": "Nostradamus",
-    "url": "https://www.dropout.tv/",
-    "likes": 1000001
+    "title": "FSO in a Closed World",
+    "author": "Charles Babbage",
+    "url": "https://www.wikipedia.org/",
+    "likes": 5
 }
 
 ###
