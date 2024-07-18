@@ -7,10 +7,10 @@ POST http://localhost:3003/api/blogs/
 Content-Type: application/json
 
 {
-    "title": "Staying Motivated While Knowing Nothing",
-    "author": "Me IRL",
-    "url": "https://www.reddit.com/r/me_irl/",
-    "likes": 1000000 
+    "title": "Finding Direction in a New Time",
+    "author": "Nostradamus",
+    "url": "https://www.dropout.tv/",
+    "likes": 1000001
 }
 
 ###
