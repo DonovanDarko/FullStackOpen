@@ -53,26 +53,52 @@ const blogs = [
     }  
   ]
 
+const favorite_blog = {
+    _id: "5a422b3a1b54a676234d17f9",
+    title: "Canonical string reduction",
+    author: "Edsger W. Dijkstra",
+    url: "http://www.cs.utexas.edu/~EWD/transcriptions/EWD08xx/EWD808.html",
+    likes: 12,
+    __v: 0
+  }
+
+/*
 test('dummy returns one', () => {
   const blogs = []
 
   const result = listHelper.dummy(blogs)
   assert.strictEqual(result, 1)
+})*/
+  
+describe('totalLikes', () => {
+  test('totalLikes of empty list is 0', () => {
+      const blogs = []
+
+      const result = listHelper.totalLikes(blogs)
+      assert.strictEqual(result, 0)  
+  })
+
+  test('totalLikes of test blogs is 36', () => {
+      const result = listHelper.totalLikes(blogs)
+      assert.strictEqual(result, 36)  
+  })
+
+  test('single blog list', () => {
+      const result = listHelper.totalLikes([blogs[0]])
+      assert.strictEqual(result, blogs[0].likes)
+  })
 })
 
-test('totalLikes of empty list is 0', () => {
-    const blogs = []
-
-    const result = listHelper.totalLikes(blogs)
-    assert.strictEqual(result, 0)  
-})
-
-test('totalLikes of test blogs is 36', () => {
-    const result = listHelper.totalLikes(blogs)
-    assert.strictEqual(result, 36)  
-})
-
-test('single blog list', () => {
-    const result = listHelper.totalLikes([blogs[0]])
-    assert.strictEqual(result, blogs[0].likes)
+describe('favoriteBlog', () => {
+    test('favoriteBlog with an empty list is undefined', () => {
+        const result = listHelper.favoriteBlog([])
+        assert.strictEqual(result, undefined)
+    })
+    test('favoriteBlog from predefined list', () => {
+        const result = listHelper.favoriteBlog(blogs)
+        assert.deepStrictEqual(result, favorite_blog)
+    })
+    test('favoriteBlog from a list of 1 item', () => {
+        assert.deepStrictEqual(favorite_blog, listHelper.favoriteBlog([favorite_blog]))
+    })
 })
