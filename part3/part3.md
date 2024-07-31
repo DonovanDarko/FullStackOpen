@@ -1,0 +1,1 @@
+Part 3 is located in another castle: https://github.com/DonovanDarko/FullStackOpenPart3
