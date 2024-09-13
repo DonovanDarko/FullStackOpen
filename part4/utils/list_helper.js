@@ -4,7 +4,7 @@ const dummy = (blogs) => {
     return 1
   }
 
-const totalLikes = (blogs) => {
+const totalLikes = (blogs) => { //resaving to submit exercise 4.4
     return blogs.length === 0
     ? 0
     : blogs.reduce((sum, blog)=>{return sum + blog.likes}, 0)

@@ -61,16 +61,8 @@ const favorite_blog = {
     likes: 12,
     __v: 0
   }
-
-/*
-test('dummy returns one', () => {
-  const blogs = []
-
-  const result = listHelper.dummy(blogs)
-  assert.strictEqual(result, 1)
-})*/
   
-describe('totalLikes', () => {
+describe('totalLikes', () => { //resaving to submit exercise 4.4
   test('totalLikes of empty list is 0', () => {
       const blogs = []
 
