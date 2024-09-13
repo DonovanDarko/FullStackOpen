@@ -62,7 +62,7 @@ const favorite_blog = {
     __v: 0
   }
   
-describe('totalLikes', () => { //resaving to submit exercise 4.4
+describe('totalLikes', () => {
   test('totalLikes of empty list is 0', () => {
       const blogs = []
 
@@ -81,7 +81,7 @@ describe('totalLikes', () => { //resaving to submit exercise 4.4
   })
 })
 
-describe('favoriteBlog', () => {
+describe('favoriteBlog', () => { //exercise 4.5 submission
     test('favoriteBlog with an empty list is undefined', () => {
         const result = listHelper.favoriteBlog([])
         assert.strictEqual(result, undefined)
